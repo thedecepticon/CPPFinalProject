@@ -92,6 +92,17 @@ struct area_map{
       }
       return neighbors;
   }
+  //iteration function for simulator
+  void live(){
+    for (int i = 0; i < myMap.size();++i)
+        for (int j = 0; j < myMap.front().size(); ++j){
+          std::string type = myMap[i][j]->specs.type;
+          if(type !="environment"){
+              
+          }
+          
+        }
+  }
   //members
   //std::map<char,attr> species;
   species mySpecies;
