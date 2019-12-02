@@ -2,14 +2,16 @@
 #define ENVIRONMENT_HPP
 
 #include "attributes.hpp"
+#include "point.hpp"
 
 class environment{
   public:
-    environment(char id):id(id){}
-    environment(char id, attr info):id(id),specs(info){}
+    environment(char id, point p):id(id), position(p){}
+    environment(char id, attr info, point p):id(id),specs(info), position(p){}
     environment* overlap; //when an organism is in the space of something that can be restored/regrow
     char id;
     attr specs; //dynamic attributes of an organism
+    point position;
 };
 
 #endif

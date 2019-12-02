@@ -58,12 +58,13 @@ int main() {
   simulation testtwo(read2nd,readS2);
   read2nd.close();
   // assignment testing
-  environment* overwrite = new environment('P');
+  environment* overwrite = new environment('P', point(0,1));
   testtwo.envMap.myMap[0][1] = overwrite;
   testtwo.envMap.myMap[1][5]->overlap = overwrite;
   std::cout<< std::boolalpha << overwrite->specs.moveable <<std::endl;
   std::cout<< std::boolalpha<< testtwo.envMap.myMap[1][5]->specs.type<<std::endl;
   std::cout<<testtwo.envMap.detect(0,0).size()<<std::endl;
+  std::cout << testtwo.envMap.myMap[1][5]->position.y <<std::endl;
 
   std::cout<<"Printing map"<<std::endl;
   testtwo.printMap();
