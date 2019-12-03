@@ -133,7 +133,8 @@ struct area_map{
                   bool predator=false;//determine if we need to flee
                   bool free = false; //are there free spaces to move to
                   bool edible = false; //is there food nearby
-                  
+                  std::vector<point> freeCells; //positions we can move to
+                  std::vector<point> consumable; //positions with food we can eat
                   for(environment* e : neighbor){
                       if (e->specs.food.size() > 0){
                           auto iter = find(e->specs.food, temp->id);
@@ -144,17 +145,23 @@ struct area_map{
                       if (e->id==' ')
                           //there are free spaces to move to
                           free = true;
+                          freeCells.push_back(e->position);
                       std::string eType = e->specs.type;
                       if (eType == "plant"){
                           if(e->specs.cur_energy < 0)
                               free = true; //not consumable but we could overlap
+                              freeCells.push_back(e->position);
                       }
                       auto iter = find(temp->specs.food, e->id);
                       if (iter != temp->specs.food.end())
                           edible = true;
+                          //list of edible neighbors
+                          consumable.push_back(e->position);
                   }
+                  
                   if (predator && free){
                       //move to a free cell
+                      
 
                   }
               }
