@@ -79,6 +79,9 @@ int main() {
   // std::cout<<testtwo.envMap.at(48,0)<<std::endl;
   // std::cout<<testtwo.envMap.at(49,0)<<std::endl; //seg fault
 
+  //random free space selection
+  //testtwo.envMap.live();
+
   //species file testing
   std::cout<<std::endl;
   std::fstream rdspecies("species.txt");

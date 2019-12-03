@@ -6,6 +6,7 @@
 
 #include "environment.hpp"
 #include "point.hpp"
+#include <random>
 #include <map>
 #include <vector>
 #include <sstream>
@@ -98,6 +99,8 @@ struct area_map{
       return neighbors;
   }
 
+
+
   auto find(std::vector<char>& v, char const& s){
     auto iter = v.begin();
     auto end = v.end();
@@ -158,12 +161,27 @@ struct area_map{
                           //list of edible neighbors
                           consumable.push_back(e->position);
                   }
-                  
+                  //randomly choose a direction to move in
+                  std::random_device seed ;
+                  // generator 
+                  std::mt19937 engine( seed( ) ) ;
+                  // number distribution
+                  std::uniform_int_distribution<int> choose( 0 , freeCells.size( ) - 1 ) ;
+                  std::cout<<freeCells[choose(engine)] <<std::endl;
+                  //flee a predator
                   if (predator && free){
                       //move to a free cell
-                      
 
+                  }else{
+                    //check the need to feed
+                    if(temp->specs.cur_energy < temp->specs.max_energy/2 && edible){
+
+                    }
+                    //procreate
+                    
+                    //move
                   }
+
               }
         }
     //check for omnivores
