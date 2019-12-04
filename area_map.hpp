@@ -81,7 +81,7 @@ struct area_map{
   //check the area of the map around a living organism from the vector and try to decide if it is going to move, eat, grow, regrow, or flee.
   std::vector<environment*> detect(int i, int j){
       std::vector<environment*> neighbors;
-      std::cout<<point(i,j)<<std::endl;
+      //std::cout<<point(i,j)<<std::endl;
       //up
       if(i-1 >= 0){
         neighbors.push_back(myMap[i-1][j]);
@@ -184,6 +184,7 @@ struct area_map{
                             temp->overlap = myMap[moveTo.x][moveTo.y]; //store what we will be standing on
                             myMap[moveTo.x][moveTo.y] = temp; //commit the move
                             temp->specs.cur_energy -= 1; //energy loss on move
+                            temp->position = moveTo; //update internal position
 
                         }else{
                             myMap[i][j] = temp->overlap; //replace what we stood on
@@ -191,6 +192,7 @@ struct area_map{
                             temp->overlap = myMap[moveTo.x][moveTo.y]; //store what we will be standing on
                             myMap[moveTo.x][moveTo.y] = temp; //commit the move
                             temp->specs.cur_energy -= 1; //energy loss on move
+                            temp->position = moveTo; //update internal position
                         }
                       }
                   }else{
@@ -212,6 +214,7 @@ struct area_map{
                               myMap[i][j] = categorize(' ',point(i,j));
                               myMap[e->position.x][e->position.y] = temp; //commit the move
                               temp->specs.cur_energy -= 1; //energy loss on move
+                              temp->position = e->position; //update internal position
                               //consume the energy
                               temp->specs.cur_energy += e->specs.cur_energy;
                               //dont exceed the max
@@ -226,6 +229,7 @@ struct area_map{
                               temp->overlap = e; //set the new overlap
                               myMap[e->position.x][e->position.y] = temp; //commit the move
                               temp->specs.cur_energy -= 1; //energy loss on move
+                              temp->position = e->position; //update internal position
                               //consume the energy
                               temp->specs.cur_energy += e->specs.cur_energy;
                               //dont exceed the max
@@ -261,15 +265,18 @@ struct area_map{
                             temp->overlap = myMap[moveTo.x][moveTo.y]; //store what we will be standing on
                             myMap[moveTo.x][moveTo.y] = temp; //commit the move
                             temp->specs.cur_energy -= 1; //energy loss on move
+                            temp->position = moveTo; //update internal position
 
                         }else{
                             //std::cout<<"standing on something"<<std::endl;
-                            std::cout<<freeCells.size()<<std::endl;
+                            //std::cout<<freeCells.size()<<std::endl;
                             myMap[i][j] = temp->overlap; //replace what we stood on
                             point moveTo = freeCells[chooseMove(engine)];
                             temp->overlap = myMap[moveTo.x][moveTo.y]; //store what we will be standing on
                             myMap[moveTo.x][moveTo.y] = temp; //commit the move
                             temp->specs.cur_energy -= 1; //energy loss on move
+                            temp->position = moveTo; //update internal position
+                            //std::cout<<temp->position<<std::endl;
                         }
                       }
                     }
@@ -288,6 +295,8 @@ struct area_map{
                         delete temp;
                     }else{
                       std::cout<<"was standing on something"<<std::endl;
+                      std::cout<<temp->id<<" at "<<temp->position;
+                      std::cout<<" standing on "<<temp->overlap->id<<" at " << temp->overlap->position<<std::endl;
                       myMap[temp->position.x][temp->position.y] = temp->overlap;
                       delete temp;
                     }
