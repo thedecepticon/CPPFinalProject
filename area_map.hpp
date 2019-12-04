@@ -126,10 +126,23 @@ struct area_map{
                       temp->specs.cur_energy = temp->specs.max_energy;
               }
         }
-    //check for herbivores
+    //make a list of creatures to work on (prevents those moving down and right from operating more than once per turn)
+    std::vector<environment*> herbiList;
     for (int i = 0; i < myMap.size();++i){
         for (int j = 0; j < myMap.front().size(); ++j){
           environment* temp = myMap[i][j];
+              if(temp->specs.type=="herbivore"){
+                 herbiList.push_back(temp);
+              }
+        }
+    }
+    //check for herbivores
+    
+    for (environment* organism: herbiList){
+        environment* temp = organism;
+        int i = temp->position.x;
+        int j = temp->position.y;
+          //environment* temp = myMap[i][j];
           std::string type = temp->specs.type;
               if(type=="herbivore"){
                   //check adjacent cells
@@ -302,7 +315,7 @@ struct area_map{
                     }
                   }
               }//end if herbivore
-        }//end j
+        //}//end j
     }// end i 
 
     //check for omnivores
