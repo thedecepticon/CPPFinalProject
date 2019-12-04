@@ -24,6 +24,7 @@
 //https://repl.it/@Sorceror89/hw11-problem1
 //https://repl.it/@Sorceror89/stringtolist
 //https://repl.it/@Sorceror89/Readline     //error reproduction
+//https://repl.it/@Sorceror89/CommandArgs   //repl.it command line usage
 
 int main() {
   //base testing
