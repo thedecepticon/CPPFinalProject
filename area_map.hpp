@@ -288,15 +288,15 @@ struct area_map{
                   }//end else after predator
                   //check energy for death
                   if (temp->specs.cur_energy <=0){
-                    std::cout<<"herbivore died of energy loss"<<std::endl;
+                    //std::cout<<"herbivore died of energy loss"<<std::endl;
                     if (temp->overlap == nullptr){
-                        std::cout<<"not standing on anything"<<std::endl;
+                        //std::cout<<"not standing on anything"<<std::endl;
                         myMap[temp->position.x][temp->position.y] = categorize(' ', point(temp->position.x,temp->position.y));
                         delete temp;
                     }else{
-                      std::cout<<"was standing on something"<<std::endl;
-                      std::cout<<temp->id<<" at "<<temp->position;
-                      std::cout<<" standing on "<<temp->overlap->id<<" at " << temp->overlap->position<<std::endl;
+                      // std::cout<<"was standing on something"<<std::endl;
+                      // std::cout<<temp->id<<" at "<<temp->position;
+                      // std::cout<<" standing on "<<temp->overlap->id<<" at " << temp->overlap->position<<std::endl;
                       myMap[temp->position.x][temp->position.y] = temp->overlap;
                       delete temp;
                     }
