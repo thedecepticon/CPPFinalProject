@@ -78,7 +78,7 @@ int main() {
   // std::cout<<testtwo.envMap.at(47,0)<<std::endl;
   // std::cout<<testtwo.envMap.at(48,0)<<std::endl;
   // std::cout<<testtwo.envMap.at(49,0)<<std::endl; //seg fault
-
+  std::cout<<testtwo.envMap.extent()<<std::endl;
   //random free space selection
   for (int i = 0; i < 13; ++i)
     testtwo.envMap.live();
