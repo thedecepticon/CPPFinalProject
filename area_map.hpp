@@ -144,7 +144,7 @@ struct area_map{
         int j = temp->position.y;
           //environment* temp = myMap[i][j];
           std::string type = temp->specs.type;
-              if(type=="herbivore"){
+              //if(type=="herbivore"){
                   //check adjacent cells
                   std::vector<environment*> neighbor = detect(i,j);
                 
@@ -314,7 +314,7 @@ struct area_map{
                       delete temp;
                     }
                   }
-              }//end if herbivore
+              //}//end if herbivore
         //}//end j
     }// end i 
 
