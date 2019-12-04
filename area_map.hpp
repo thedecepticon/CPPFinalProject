@@ -13,6 +13,7 @@
 #include <iostream>
 
 //#define DEBUG
+//https://repl.it/@Sorceror89/Random-number-test
 
 struct area_map{
   area_map(std::istream& inMap,std::istream& inSpec):mySpecies(inSpec){
@@ -145,7 +146,7 @@ struct area_map{
                               predator = true;
                       }
                           
-                      if (e->id==' ')
+                      if (e->id==' ') //|| e->id=='~')
                           //there are free spaces to move to
                           free = true;
                           freeCells.push_back(e->position);
@@ -166,8 +167,8 @@ struct area_map{
                   // generator 
                   std::mt19937 engine( seed( ) ) ;
                   // number distribution
-                  std::uniform_int_distribution<int> choose( 0 , freeCells.size( ) - 1 ) ;
-                  std::cout<<freeCells[choose(engine)] <<std::endl;
+                  std::uniform_int_distribution<int> chooseMove(0, freeCells.size() - 1);
+                  std::cout<<freeCells[chooseMove(engine)] <<std::endl;
                   //flee a predator
                   if (predator && free){
                       //move to a free cell
@@ -175,7 +176,42 @@ struct area_map{
                   }else{
                     //check the need to feed
                     if(temp->specs.cur_energy < temp->specs.max_energy/2 && edible){
+                        //try to consume
+                        // number distribution
+                        std::uniform_int_distribution<int> chooseConsume(0, consumable.size() - 1);
 
+                        point pConsume = consumable[chooseConsume(engine)]; //get the position of the food
+                        environment* e = myMap[pConsume.x][pConsume.y]; //get the food
+                        //check food type
+                        if(e->specs.type=="plant"){
+                            //plants regrow, hang on to it
+                            if (temp->overlap == nullptr){
+                              temp->overlap = e;//set the new overlap
+                              //no current overlap leave behind an empty space
+                              myMap[i][j] = categorize(' ',point(i,j));
+                              myMap[e->position.x][e->position.y]; //commit the move
+                              //consume the energy
+                              temp->specs.cur_energy += e->specs.cur_energy;
+                              //dont exceed the max
+                              if (temp->specs.cur_energy > temp->specs.max_energy) 
+                                  temp->specs.cur_energy = temp->specs.max_energy;
+                            }else{
+                              //already overlapping something, put it back as we move
+                              myMap[i][j] = temp->overlap;
+                              temp->position = e->position; //update the current elements position in data
+                              temp->overlap = e; //set the new overlap
+                              myMap[e->position.x][e->position.y]; //commit the move
+                              //consume the energy
+                              temp->specs.cur_energy += e->specs.cur_energy;
+                              //dont exceed the max
+                              if (temp->specs.cur_energy > temp->specs.max_energy) 
+                                  temp->specs.cur_energy = temp->specs.max_energy;
+                            }  
+                        }else{
+                            //check for an overlap and remove other food
+                            if (e->overlap != nullptr)
+                              temp->overlap = e->overlap;
+                        }
                     }
                     //procreate
                     
