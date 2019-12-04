@@ -131,7 +131,7 @@ struct area_map{
           environment* temp = myMap[i][j];
           std::string type = temp->specs.type;
               if(type=="herbivore"){
-                //check adjacent cells
+                  //check adjacent cells
                   std::vector<environment*> neighbor = detect(i,j);
                 
                   bool predator=false;//determine if we need to flee
@@ -145,22 +145,23 @@ struct area_map{
                           if (iter != e->specs.food.end())
                               predator = true;
                       }
-                          
-                      if (e->id==' ') //|| e->id=='~')
+                      if (e->id==' '){ //|| e->id=='~')
                           //there are free spaces to move to
                           free = true;
                           freeCells.push_back(e->position);
-                      std::string eType = e->specs.type;
-                      if (eType == "plant"){
-                          if(e->specs.cur_energy < 0)
+                      }
+                      if (e->specs.type == "plant"){
+                          if(e->specs.cur_energy < 0){
                               free = true; //not consumable but we could overlap
                               freeCells.push_back(e->position);
+                          }
                       }
                       auto iter = find(temp->specs.food, e->id);
-                      if (iter != temp->specs.food.end())
+                      if (iter != temp->specs.food.end()){
                           edible = true;
                           //list of edible neighbors
                           consumable.push_back(e->position);
+                      }
                   }
                   //randomly choose a direction to move in
                   std::random_device seed ;
@@ -168,11 +169,25 @@ struct area_map{
                   std::mt19937 engine( seed( ) ) ;
                   // number distribution
                   std::uniform_int_distribution<int> chooseMove(0, freeCells.size() - 1);
-                  std::cout<<freeCells[chooseMove(engine)] <<std::endl;
+                  //std::cout<<freeCells[chooseMove(engine)] <<std::endl;
                   //flee a predator
                   if (predator && free){
                       //move to a free cell
+                      if(temp->overlap==nullptr){
+                          //no current overlap leave behind an empty space
+                          myMap[i][j] = categorize(' ',point(i,j));
+                          point moveTo = freeCells[chooseMove(engine)];
+                          temp->overlap = myMap[moveTo.x][moveTo.y]; //store what we will be standing on
+                          myMap[moveTo.x][moveTo.y] = temp; //commit the move
+                          temp->specs.cur_energy -= 1; //energy loss on move
 
+                      }else{
+                          myMap[i][j] = temp->overlap; //replace what we stood on
+                          point moveTo = freeCells[chooseMove(engine)];
+                          temp->overlap = myMap[moveTo.x][moveTo.y]; //store what we will be standing on
+                          myMap[moveTo.x][moveTo.y] = temp; //commit the move
+                          temp->specs.cur_energy -= 1; //energy loss on move
+                      }
                   }else{
                     //check the need to feed
                     if(temp->specs.cur_energy < temp->specs.max_energy/2 && edible){
@@ -182,41 +197,75 @@ struct area_map{
 
                         point pConsume = consumable[chooseConsume(engine)]; //get the position of the food
                         environment* e = myMap[pConsume.x][pConsume.y]; //get the food
-                        //check food type
+                        //double check food type for herbivore
                         if(e->specs.type=="plant"){
                             //plants regrow, hang on to it
                             if (temp->overlap == nullptr){
                               temp->overlap = e;//set the new overlap
                               //no current overlap leave behind an empty space
                               myMap[i][j] = categorize(' ',point(i,j));
-                              myMap[e->position.x][e->position.y]; //commit the move
+                              myMap[e->position.x][e->position.y] = temp; //commit the move
+                              temp->specs.cur_energy -= 1; //energy loss on move
                               //consume the energy
                               temp->specs.cur_energy += e->specs.cur_energy;
                               //dont exceed the max
                               if (temp->specs.cur_energy > temp->specs.max_energy) 
                                   temp->specs.cur_energy = temp->specs.max_energy;
+                              //set plant to regrow mode
+                              e->specs.cur_energy = -e->specs.regrowth;
                             }else{
                               //already overlapping something, put it back as we move
                               myMap[i][j] = temp->overlap;
                               temp->position = e->position; //update the current elements position in data
                               temp->overlap = e; //set the new overlap
-                              myMap[e->position.x][e->position.y]; //commit the move
+                              myMap[e->position.x][e->position.y] = temp; //commit the move
+                              temp->specs.cur_energy -= 1; //energy loss on move
                               //consume the energy
                               temp->specs.cur_energy += e->specs.cur_energy;
                               //dont exceed the max
                               if (temp->specs.cur_energy > temp->specs.max_energy) 
                                   temp->specs.cur_energy = temp->specs.max_energy;
-                            }  
-                        }else{
-                            //check for an overlap and remove other food
-                            if (e->overlap != nullptr)
-                              temp->overlap = e->overlap;
+                              //set plant to regrow mode
+                              e->specs.cur_energy = -e->specs.regrowth;
+                            } 
+                        
                         }
+                        //omnivore can eat more
+                        // else{
+                        //     if(temp->overlap == nullptr){
+                        //         //check for an overlap in the food and transfer it
+                        //         if (e->overlap != nullptr)
+                        //             temp->overlap = e->overlap;
+                        //         //no current overlap leave behind an empty space
+                        //         myMap[i][j] = categorize(' ',point(i,j));
+                        //     }
+                            
+                        // }
+                    }//end need to feed
+                    else{
+                      //move to a free cell
+                      if(temp->overlap==nullptr){
+                          //no current overlap leave behind an empty space
+                          myMap[i][j] = categorize(' ',point(i,j));
+                          point moveTo = freeCells[chooseMove(engine)];
+                          temp->overlap = myMap[moveTo.x][moveTo.y]; //store what we will be standing on
+                          myMap[moveTo.x][moveTo.y] = temp; //commit the move
+                          temp->specs.cur_energy -= 1; //energy loss on move
+
+                      }else{
+                          myMap[i][j] = temp->overlap; //replace what we stood on
+                          point moveTo = freeCells[chooseMove(engine)];
+                          temp->overlap = myMap[moveTo.x][moveTo.y]; //store what we will be standing on
+                          myMap[moveTo.x][moveTo.y] = temp; //commit the move
+                          temp->specs.cur_energy -= 1; //energy loss on move
+                      }
                     }
+
+                    
                     //procreate
                     
                     //move
-                  }
+                  }//end else after predator
 
               }
         }
