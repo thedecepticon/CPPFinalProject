@@ -239,7 +239,7 @@ struct area_map{
                               e->specs.cur_energy = -e->specs.regrowth;
                             } 
                         
-                        }
+                        }//end if food == plant
                         //omnivore can eat more
                         // else{
                         //     if(temp->overlap == nullptr){
