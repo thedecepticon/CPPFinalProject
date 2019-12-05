@@ -226,7 +226,6 @@ struct area_map{
                     }else{
                         //already overlapping something, put it back as we move
                         myMap[i][j] = temp->overlap;
-                        temp->position = e->position; //update the current elements position in data
                         temp->overlap = e; //set the new overlap
                         myMap[e->position.x][e->position.y] = temp; //commit the move
                         temp->specs.cur_energy -= 1; //energy loss on move
@@ -240,17 +239,7 @@ struct area_map{
                         e->specs.cur_energy = -e->specs.regrowth;
                     } 
                 }//end if food == plant
-                //omnivore can eat more
-                // else{
-                //     if(temp->overlap == nullptr){
-                //         //check for an overlap in the food and transfer it
-                //         if (e->overlap != nullptr)
-                //             temp->overlap = e->overlap;
-                //         //no current overlap leave behind an empty space
-                //         myMap[i][j] = categorize(' ',point(i,j));
-                //     }
-                    
-                // }
+                
             }//end need to feed
             else{
                 //std::cout<<"moving"<<std::endl;
@@ -407,6 +396,7 @@ struct area_map{
         }else{
             //check the need to feed
             if(temp->specs.cur_energy < temp->specs.max_energy/2 && edible){
+            //if(edible){
                 //std::cout<<"EAT"<<std::endl;
                 //try to consume
                 // number distribution
@@ -433,7 +423,6 @@ struct area_map{
                     }else{
                         //already overlapping something, put it back as we move
                         myMap[i][j] = temp->overlap;
-                        temp->position = e->position; //update the current elements position in data
                         temp->overlap = e; //set the new overlap
                         myMap[e->position.x][e->position.y] = temp; //commit the move
                         temp->specs.cur_energy -= 1; //energy loss on move
@@ -447,17 +436,44 @@ struct area_map{
                         e->specs.cur_energy = -e->specs.regrowth;
                     } 
                 }//end if food == plant
-                //omnivore can eat more
-                // else{
-                //     if(temp->overlap == nullptr){
-                //         //check for an overlap in the food and transfer it
-                //         if (e->overlap != nullptr)
-                //             temp->overlap = e->overlap;
-                //         //no current overlap leave behind an empty space
-                //         myMap[i][j] = categorize(' ',point(i,j));
-                //     }
+                //omnivore can eat more than plants
+                else{
+                    if(temp->overlap == nullptr){
+                        //check for an overlap in the food and transfer it
+                        //if (e->overlap != nullptr)
+                            temp->overlap = e->overlap;
+                        //no current overlap leave behind an empty space as we consume
+                        myMap[i][j] = categorize(' ',point(i,j));
+                        temp->position = e->position; //update internal position
+                        myMap[e->position.x][e->position.y] = temp; //commit the move
+                        temp->specs.cur_energy -= 1; //energy loss on move
+                        //consume the energy
+                        temp->specs.cur_energy += e->specs.cur_energy;
+                        //dont exceed the max
+                        if (temp->specs.cur_energy > temp->specs.max_energy) 
+                            temp->specs.cur_energy = temp->specs.max_energy;
+                        //kill off the Animal
+                        delete e;
+                    }else{
+                        //current standing on something
+                        myMap[i][j] = temp->overlap;
+                        //check for an overlap in the food and transfer it
+                        // if (e->overlap != nullptr)
+                            temp->overlap = e->overlap;
+                        
+                        temp->position = e->position; //update internal position
+                        myMap[e->position.x][e->position.y] = temp; //commit the move
+                        temp->specs.cur_energy -= 1; //energy loss on move
+                        //consume the energy
+                        temp->specs.cur_energy += e->specs.cur_energy;
+                        //dont exceed the max
+                        if (temp->specs.cur_energy > temp->specs.max_energy) 
+                            temp->specs.cur_energy = temp->specs.max_energy;
+                        //kill off the Animal
+                        delete e;
+                    }
                     
-                // }
+                }
             }//end need to feed
             else{
                 //std::cout<<"moving"<<std::endl;
