@@ -9,7 +9,7 @@ class environment{
     environment(char id, point p):id(id), position(p){}
     environment(char id, attr info, point p):id(id),specs(info), position(p){}
     ~environment(){
-      std::cout<<id<<" died."<<std::endl;
+      //std::cout<<id<<" died."<<std::endl;
     }
     environment* overlap; //when an organism is in the space of something that can be restored/regrow
     char id;

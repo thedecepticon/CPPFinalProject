@@ -297,6 +297,7 @@ struct area_map{
                 bool baby = false;
                 if (mates.size() > 0 && babyFreeCells.size() > 0) baby = true;
                 if (baby){
+                    //choose the free spot to place the new animal
                     std::uniform_int_distribution<int> chooseBaby(0, babyFreeCells.size() - 1);
                     point newBaby = babyFreeCells[chooseBaby(engine)];
                     environment* babyAnimal = categorize(temp->id,newBaby); //make the baby

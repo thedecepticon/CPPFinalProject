@@ -82,10 +82,11 @@ int main() {
 
   //std::cout<<testtwo.envMap.extent()<<std::endl;
   //random free space selection
-  for (int i = 0; i < 100; ++i)
+  for (int i = 0; i < 1000; ++i)
     testtwo.envMap.live();
   std::cout<<"Printing map"<<std::endl;
   testtwo.printMap();
+  
 
   //species file testing
   std::cout<<std::endl;
