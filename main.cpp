@@ -44,20 +44,23 @@ int main() {
   std::fstream readM("map.txt"); 
   simulation sim(readM,readS);
   readM.close();
+  readS.close();
   std::cout<<"Printing map"<<std::endl;
   sim.printMap();
-  std::cout<<"saving to file"<<std::endl;
-  sim.saveMap();//testSave.txt
+  //std::cout<<"saving to file"<<std::endl;
+  //sim.saveMap();//testSave.txt
+  sim.mainMenu();
   // std::cout<<sim.envMap.at(48,12)<<std::endl; //space
   // //std::cout<<sim.envMap.at(49,12)<<std::endl; //seg fault
   // std::cout<<sim.envMap.at(49,11)<<std::endl; // x 
   // std::cout<<sim.envMap.at(49,0)<<std::endl; //shows the x id
 
   //saved map read
-  std::fstream readS2("species.txt");
-  std::fstream read2nd("testSave.txt");
-  simulation testtwo(read2nd,readS2);
-  read2nd.close();
+//   std::fstream readS2("species.txt");
+//   std::fstream read2nd("testSave.txt");
+//   simulation testtwo(read2nd,readS2);
+//   read2nd.close();
+//   readS2.close();
   // assignment testing
   // environment* overwrite = new environment('P', point(0,1));
   // testtwo.envMap.myMap[0][1] = overwrite;
@@ -67,8 +70,8 @@ int main() {
   // std::cout<<testtwo.envMap.detect(0,0).size()<<std::endl;
   // std::cout << testtwo.envMap.myMap[1][5]->position.y <<std::endl;
 
-  std::cout<<"Printing map"<<std::endl;
-  testtwo.printMap();
+  //std::cout<<"Printing map"<<std::endl;
+  //testtwo.printMap();
   //testtwo.printSpecies();
   //std::cout<<"saving to file"<<std::endl;
   //testtwo.saveMap("testSavingAReadSave.txt");
@@ -82,24 +85,24 @@ int main() {
 
   //std::cout<<testtwo.envMap.extent()<<std::endl;
   //random free space selection
-  for (int i = 0; i < 1000; ++i)
-    testtwo.envMap.live();
-  std::cout<<"Printing map"<<std::endl;
-  testtwo.printMap();
-  
+//   for (int i = 0; i < 1000; ++i)
+//     testtwo.envMap.live();
+//   std::cout<<"Printing map"<<std::endl;
+//   testtwo.printMap();
+   //testtwo.mainMenu();
 
   //species file testing
-  std::cout<<std::endl;
-  std::fstream rdspecies("species.txt");
-  // std::map<char, attr> species = readSpecies(rdspecies);
-  species species(rdspecies);
-  rdspecies.close();
-  // for (auto e : species)
-  //   std::cout << e.second.type<<std::endl;
+//   std::cout<<std::endl;
+//   std::fstream rdspecies("species.txt");
+//   // std::map<char, attr> species = readSpecies(rdspecies);
+//   species species(rdspecies);
+//   rdspecies.close();
+//   // for (auto e : species)
+//   //   std::cout << e.second.type<<std::endl;
 
-  //species.printSpecies();
+//   //species.printSpecies();
   
-  std::ofstream output("testSaveSpecies.txt");
-  species.saveSpecies(output);
-  output.close();
+//   std::ofstream output("testSaveSpecies.txt");
+//   species.saveSpecies(output);
+//   output.close();
 }

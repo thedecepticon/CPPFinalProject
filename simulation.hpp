@@ -65,7 +65,7 @@ class simulation{
         std::cin>>fn;
         std::cout<<"Saving...\n";
         saveMap(fn);
-        std::cout<<"Save complete";
+        std::cout<<"Save complete"<<std::endl;
     }
 
     void mainMenu(){
@@ -82,24 +82,26 @@ class simulation{
         bool firstRun = true;
         while(b){
             std::string choice = "";
-            if (!firstRun){
+            if (firstRun != false){
                 std::cout<<"Would you like to run a single iteration or a batch of 10?\n";
                 std::cout<<"Enter A for single, B for Batch, E to exit: ";
             }else{
                 std::cout<<"Would you like to run a single iteration or a batch of 10?\n";
                 std::cout<<"You may also choose to save the current map.\n";
-                std::cout<<"Enter A for single, B for Batch,\n S to save, E to exit: ";
+                std::cout<<"Enter A for single, B for Batch, S to save, E to exit: ";
             }
+            std::cout.flush();
             std::cin>>choice;
             switch(lookupOption(choice)){
-                case 0: iterations(1); break;
-                case 1: iterations(10); break;
+                case 0: iterations(1); firstRun = false; break;
+                case 1: iterations(10); firstRun = false; break;
                 case 2: {
-                    if (!firstRun){
+                    if (firstRun!= true){
                         bool saving=true;
                         while(saving){
                             std::string choice = "";
                             std::cout<<"Map has been altered would you like to save? Y/N: ";
+                            std::cout.flush();
                             std::cin>>choice;
                             switch(lookupOption(choice)){
                                 case 4: optionSave(); b = false; saving = false; break;
@@ -107,12 +109,13 @@ class simulation{
                                 default: std::cout<<"Choice unknown, please try again."<<std::endl;
                             }
                         }
+                        break;
                     }else{
                         b = false; break;
                     }
                 }
                 case 3: {
-                    if(!firstRun){
+                    if(firstRun!= true){
                         optionSave();
                         b = false;
                         break;
@@ -120,9 +123,10 @@ class simulation{
                 }
                 default: std::cout<<"Choice unknown, please try again."<<std::endl;
             }
-            firstRun = false;
-
+            
+            
         }
+        std::cout<<"Simulation terminating. Good-Bye."<<std::endl;
     }
 
     //map
