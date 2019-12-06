@@ -196,6 +196,8 @@ struct area_map{
                   temp->specs.cur_energy -= 1; //energy loss on move
                   temp->position = moveTo; //update internal position
               }
+            }else{
+                temp->specs.cur_energy -= 1; //loss of energy for a no move iteration
             }
         }else{
             //check the need to feed
@@ -267,6 +269,8 @@ struct area_map{
                         temp->position = moveTo; //update internal position
                         //std::cout<<temp->position<<std::endl;
                     }
+                }else{
+                    temp->specs.cur_energy -= 1; //loss of energy for a no move iteration
                 }
             }//end of else case. move, no consumption
             //procreate
@@ -392,6 +396,8 @@ struct area_map{
                   temp->specs.cur_energy -= 1; //energy loss on move
                   temp->position = moveTo; //update internal position
               }
+            }else{
+                temp->specs.cur_energy -= 1; //loss of energy for a no move iteration
             }
         }else{
             //check the need to feed
@@ -501,6 +507,8 @@ struct area_map{
                         temp->position = moveTo; //update internal position
                         //std::cout<<temp->position<<std::endl;
                     }
+                }else{
+                    temp->specs.cur_energy -= 1; //loss of energy for a no move iteration
                 }
             }//end of else case. move, no consumption
             //procreate
