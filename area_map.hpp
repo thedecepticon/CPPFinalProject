@@ -102,7 +102,7 @@ struct area_map{
   }
 
 
-
+    //iterator to search food chain (flee or edible)
   auto find(std::vector<char>& v, char const& s){
     auto iter = v.begin();
     auto end = v.end();
@@ -162,9 +162,11 @@ struct area_map{
             }
             auto iter = find(temp->specs.food, e->id);
             if (iter != temp->specs.food.end()){
-                edible = true;
-                //list of edible neighbors
-                consumable.push_back(e->position);
+                if(e->specs.cur_energy > 0){ //plants may be regrowing
+                    edible = true;
+                    //list of edible neighbors
+                    consumable.push_back(e->position);
+                }
             }
         }
         //randomly choose a direction to move in
@@ -364,9 +366,11 @@ struct area_map{
             }
             auto iter = find(temp->specs.food, e->id);
             if (iter != temp->specs.food.end()){
-                edible = true;
-                //list of edible neighbors
-                consumable.push_back(e->position);
+                if(e->specs.cur_energy > 0){ // plants may be regrowing
+                    edible = true;
+                    //list of edible neighbors
+                    consumable.push_back(e->position);
+                }
             }
         }
         //randomly choose a direction to move in

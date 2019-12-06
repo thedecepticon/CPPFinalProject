@@ -1,13 +1,13 @@
-~~~  D       AAA A A A         ###          aaaaa
-~~             A A            ###            Aaaa
-~~       A AAAAaAAAA        ###      aa         a
-~~~    A A A AAAAAaAA      ###       aaa         
-~~~~~~ A  A A AAAAAAA   C ###    D               
-~~~~~~~~ A     A AaA      ###          ~~  C     
-~~~~~~~~~    AA A A A     ###        ~~~~~~      
-~~~~~~~~~  C   A           ###       ~~~~~~~     
-~~~~~~~~   A AAA   A                   ~~~~~~    
-~~~~~~~       AA  A      bbbb        bb ~~~~~~  C
-~~~~~        AAAAaA      bb  bb      Dbb   ~~~   
-~~~~C       AAaAaAAa                   b    ~    
-~~~       CA AAA Aaa      bbbbbb      bb         
+~~~       AA  A A              ###          aaaaa
+~~          AA  CA     A      ###             Aaa
+~~          AA aaAAA        ###      aa         a
+~~~       AAAAAAAAaa       ###       aaa         
+~~~~~~        AaAAAaa     ###                    
+~~~~~~~~         CAa      ###          ~~        
+~~~~~~~~~         A       ###        ~~~~~~      
+~~~~~~~~~ AA    A          ###       ~~~~~~~     
+~~~~~~~~   AAA                         ~~~~~~    
+~~~~~~~   A   A  A  A    bbbb        bb ~~~~~~   
+~~~~~   AAA  AAAaAA      bb  bb       bb   ~~~   
+~~~~    A AAAAAAAAAA A                 b    ~    
+~~~        AAAAA aAaA     bbbbbb      bb         
