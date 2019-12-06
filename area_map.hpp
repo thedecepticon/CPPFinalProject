@@ -201,7 +201,7 @@ struct area_map{
             }
         }else{
             //check the need to feed
-            if(temp->specs.cur_energy < temp->specs.max_energy/2 && edible){
+            if(temp->specs.cur_energy < temp->specs.max_energy && edible){
                 //std::cout<<"EAT"<<std::endl;
                 //try to consume
                 // number distribution
@@ -300,6 +300,7 @@ struct area_map{
                     std::uniform_int_distribution<int> chooseBaby(0, babyFreeCells.size() - 1);
                     point newBaby = babyFreeCells[chooseBaby(engine)];
                     environment* babyAnimal = categorize(temp->id,newBaby); //make the baby
+                    babyAnimal->specs.cur_energy = temp->specs.cur_energy/2;
                     babyAnimal->overlap = myMap[newBaby.x][newBaby.y]; //baby should be overlapping ' ' (free space)
                     myMap[newBaby.x][newBaby.y] = babyAnimal; //put the baby in play
                 }
@@ -401,7 +402,7 @@ struct area_map{
             }
         }else{
             //check the need to feed
-            if(temp->specs.cur_energy < temp->specs.max_energy/2 && edible){
+            if(temp->specs.cur_energy < temp->specs.max_energy && edible){
             //if(edible){
                 //std::cout<<"EAT"<<std::endl;
                 //try to consume
@@ -538,6 +539,7 @@ struct area_map{
                     std::uniform_int_distribution<int> chooseBaby(0, babyFreeCells.size() - 1);
                     point newBaby = babyFreeCells[chooseBaby(engine)];
                     environment* babyAnimal = categorize(temp->id,newBaby); //make the baby
+                    babyAnimal->specs.cur_energy = temp->specs.cur_energy/2;
                     babyAnimal->overlap = myMap[newBaby.x][newBaby.y]; //baby should be overlapping ' ' (free space)
                     myMap[newBaby.x][newBaby.y] = babyAnimal; //put the baby in play
                 }
@@ -547,7 +549,7 @@ struct area_map{
             
             
         }//end else after predator
-      
+        
         //check energy for death
         if (temp->specs.cur_energy <=0){
             //std::cout<<"herbivore died of energy loss"<<std::endl;
