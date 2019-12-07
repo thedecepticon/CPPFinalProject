@@ -21,8 +21,10 @@ struct area_map{
   }
   ~area_map(){
       //free stack mem, overlap handled by environment destructor
-      for (auto e : myMap)
-        delete e;
+      //std::cout<<"cleansing map data"<<std::endl;
+      for (auto v : myMap)
+        for (auto e : v)
+            delete e;
   }
   std::vector<std::vector<environment*> > read(std::istream& incoming){
       std::vector<std::vector<environment*> > localMap;
@@ -325,12 +327,14 @@ struct area_map{
             if (temp->overlap == nullptr){
                 //std::cout<<"not standing on anything"<<std::endl;
                 myMap[temp->position.x][temp->position.y] = categorize(' ', point(temp->position.x,temp->position.y));
+                temp->overlap = nullptr;
                 delete temp;
             }else{
               // std::cout<<"was standing on something"<<std::endl;
               // std::cout<<temp->id<<" at "<<temp->position;
               // std::cout<<" standing on "<<temp->overlap->id<<" at " << temp->overlap->position<<std::endl;
               myMap[temp->position.x][temp->position.y] = temp->overlap;
+              temp->overlap = nullptr;
               delete temp;
             }
         }
@@ -457,8 +461,9 @@ struct area_map{
                 else{
                     if(temp->overlap == nullptr){
                         //check for an overlap in the food and transfer it
-                        //if (e->overlap != nullptr)
-                            temp->overlap = e->overlap;
+                        
+                        temp->overlap = e->overlap;
+                        e->overlap = nullptr;
                         //no current overlap leave behind an empty space as we consume
                         myMap[i][j] = categorize(' ',point(i,j));
                         temp->position = e->position; //update internal position
@@ -475,9 +480,9 @@ struct area_map{
                         //current standing on something
                         myMap[i][j] = temp->overlap;
                         //check for an overlap in the food and transfer it
-                        // if (e->overlap != nullptr)
-                            temp->overlap = e->overlap;
                         
+                        temp->overlap = e->overlap;
+                        e->overlap = nullptr;
                         temp->position = e->position; //update internal position
                         myMap[e->position.x][e->position.y] = temp; //commit the move
                         temp->specs.cur_energy -= 1; //energy loss on move
@@ -566,12 +571,14 @@ struct area_map{
             if (temp->overlap == nullptr){
                 //std::cout<<"not standing on anything"<<std::endl;
                 myMap[temp->position.x][temp->position.y] = categorize(' ', point(temp->position.x,temp->position.y));
+                temp->overlap = nullptr;
                 delete temp;
             }else{
               // std::cout<<"was standing on something"<<std::endl;
               // std::cout<<temp->id<<" at "<<temp->position;
               // std::cout<<" standing on "<<temp->overlap->id<<" at " << temp->overlap->position<<std::endl;
               myMap[temp->position.x][temp->position.y] = temp->overlap;
+              temp->overlap = nullptr;
               delete temp;
             }
         }

@@ -13,6 +13,9 @@ struct species {
     species(std::istream& inSpec){
         mySpecies = readSpecies(inSpec);
     }
+    ~species(){
+        //std::cout<<"dumping species data"<<std::endl;
+    }
     
     std::set<char> filter{',', '[', ']', ' '};
 

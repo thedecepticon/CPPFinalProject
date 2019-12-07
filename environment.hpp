@@ -10,9 +10,9 @@ class environment{
     environment(char id, attr info, point p):id(id),specs(info), position(p){}
     ~environment(){
       //std::cout<<id<<" died."<<std::endl;
-      delete overlap;
+      delete overlap; //double free or corruption
     }
-    environment* overlap; //when an organism is in the space of something that can be restored/regrow
+    environment* overlap = nullptr; //when an organism is in the space of something that can be restored/regrow
     char id;
     attr specs; //dynamic attributes of an organism
     point position;
