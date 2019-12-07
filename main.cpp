@@ -14,6 +14,7 @@
 #include <map>
 #include <iostream>
 
+#define DEBUG
 //building components for class project
 //link to base github announcement https://github.com/uiowa-cs-3210-0001/cs3210-assignments-fall2019/tree/master/course-project
 //concepts
@@ -26,7 +27,7 @@
 //https://repl.it/@Sorceror89/Readline     //error reproduction
 //https://repl.it/@Sorceror89/CommandArgs   //repl.it command line usage
 
-int main() {
+int main(int argc, char** argv) {
   //base testing
   // organism a1('o');
   // std::cout<<a1.id<<std::endl;
@@ -40,6 +41,7 @@ int main() {
   // readMap.close();
   
   //given map read
+#ifndef DEBUG
   std::fstream readS("species.txt");
   std::fstream readM("map.txt"); 
   simulation sim(readM,readS);
@@ -50,6 +52,15 @@ int main() {
   //std::cout<<"saving to file"<<std::endl;
   //sim.saveMap();//testSave.txt
   sim.mainMenu();
+#else
+    //if (argv.size() < 3) return 1;
+    std::fstream readS(argv[2]);
+    std::fstream readM(argv[1]); 
+    simulation sim(readM,readS);
+    readM.close();
+    readS.close();
+    sim.mainMenu();
+#endif
   // std::cout<<sim.envMap.at(48,12)<<std::endl; //space
   // //std::cout<<sim.envMap.at(49,12)<<std::endl; //seg fault
   // std::cout<<sim.envMap.at(49,11)<<std::endl; // x 
