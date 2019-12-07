@@ -14,7 +14,7 @@
 #include <map>
 #include <iostream>
 
-//#define DEBUG
+#define DEBUG
 //building components for class project
 //link to base github announcement https://github.com/uiowa-cs-3210-0001/cs3210-assignments-fall2019/tree/master/course-project
 //concepts
@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
   // readMap.close();
   
   //given map read
-#ifndef DEBUG
+#ifdef DEBUG
   std::fstream readS("species.txt");
   std::fstream readM("map.txt"); 
   simulation sim(readM,readS);
