@@ -10,6 +10,7 @@ class environment{
     environment(char id, attr info, point p):id(id),specs(info), position(p){}
     ~environment(){
       //std::cout<<id<<" died."<<std::endl;
+      delete overlap;
     }
     environment* overlap; //when an organism is in the space of something that can be restored/regrow
     char id;

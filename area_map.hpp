@@ -19,6 +19,11 @@ struct area_map{
   area_map(std::istream& inMap,std::istream& inSpec):mySpecies(inSpec){
     myMap = read(inMap); //dependent on species to read first
   }
+  ~area_map(){
+      //free stack mem, overlap handled by environment destructor
+      for (auto e : myMap)
+        delete e;
+  }
   std::vector<std::vector<environment*> > read(std::istream& incoming){
       std::vector<std::vector<environment*> > localMap;
       std::string line;
