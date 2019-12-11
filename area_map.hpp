@@ -93,7 +93,7 @@ struct area_map{
         neighbors.push_back(myMap[i-1][j]);
       }
       //down
-      if(i+1 < extent().y){
+      if(i+1 < extent().y && i+1 >= 0){
         neighbors.push_back(myMap[i+1][j]);
       }
       //left
@@ -101,7 +101,7 @@ struct area_map{
         neighbors.push_back(myMap[i][j-1]);
       }
       //right
-      if(j+1 < extent().x){
+      if(j+1 < extent().x && j+1 >= 0){
         neighbors.push_back(myMap[i][j+1]);
       }
       return neighbors;
