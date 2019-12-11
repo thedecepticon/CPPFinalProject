@@ -12,8 +12,6 @@
 #include <sstream>
 #include <iostream>
 
-//#define DEBUG
-//https://repl.it/@Sorceror89/Random-number-test
 
 struct area_map{
   area_map(std::istream& inMap,std::istream& inSpec):mySpecies(inSpec){
@@ -27,8 +25,8 @@ struct area_map{
             delete e;
   }
   std::vector<std::vector<environment*> > read(std::istream& incoming){
-      std::vector<std::vector<environment*> > localMap;
-      std::string line;
+    std::vector<std::vector<environment*> > localMap;
+    std::string line;
     int row = 0;
     
     while(std::getline(incoming, line)){
@@ -53,13 +51,13 @@ struct area_map{
   }//end read()
 
   void save(std::ostream& out) const{
-
       for ( auto j = 0; j < extent().y; ++j ){
             for ( auto i = 0; i < extent().x; ++i )
                 out<< at( i, j );
             if (j !=extent().y-1) out <<"\n";//tag new lines minus last row
       }            
   }
+
   environment* categorize(char alpha, point p){
     if(mySpecies.mySpecies.count(alpha)>0){
       return new environment(alpha,mySpecies.mySpecies.find(alpha)->second, p);
@@ -69,6 +67,7 @@ struct area_map{
       case ' ': return new environment(' ', p);
       case '#': return new environment('#', p);
     }
+    std::cout<<"Undefined species added to map. Definition not in species file.\n";
     return new environment('x',p);//indicate error
   }
  
@@ -119,7 +118,10 @@ struct area_map{
   }
   //iteration function for simulator
   void live(){
-    //check for plants
+    //check/work on plants and fill lists to work on later in the same pass
+    //(prevents those moving down and right from operating more than once per turn)
+    std::vector<environment*> herbiList;
+    std::vector<environment*> omniList;
     for (int i = 0; i < myMap.size();++i)
         for (int j = 0; j < myMap.front().size(); ++j){
           environment* temp = myMap[i][j];
@@ -132,17 +134,23 @@ struct area_map{
                       //if plant regrown set its energy back to max
                       temp->specs.cur_energy = temp->specs.max_energy;
               }
-        }
-    //make a list of creatures to work on (prevents those moving down and right from operating more than once per turn)
-    std::vector<environment*> herbiList;
-    for (int i = 0; i < myMap.size();++i){
-        for (int j = 0; j < myMap.front().size(); ++j){
-          environment* temp = myMap[i][j];
               if(temp->specs.type=="herbivore"){
                  herbiList.push_back(temp);
               }
+              if(temp->specs.type=="omnivore"){
+                 omniList.push_back(temp);
+              }
         }
-    }
+    //make a list of creatures to work on (prevents those moving down and right from operating more than once per turn)
+    // std::vector<environment*> herbiList;
+    // for (int i = 0; i < myMap.size();++i){
+    //     for (int j = 0; j < myMap.front().size(); ++j){
+    //       environment* temp = myMap[i][j];
+    //           if(temp->specs.type=="herbivore"){
+    //              herbiList.push_back(temp);
+    //           }
+    //     }
+    // }
     //check for herbivores
     
     for (environment* organism: herbiList){
@@ -156,6 +164,7 @@ struct area_map{
         bool edible = false; //is there food nearby
         std::vector<point> freeCells; //positions we can move to
         std::vector<point> consumable; //positions with food we can eat
+        //classify the neighbors
         for(environment* e : neighbor){
             if (e->specs.food.size() > 0){
                 auto iter = find(e->specs.food, temp->id);
@@ -176,7 +185,7 @@ struct area_map{
                 }
             }
         }
-        //randomly choose a direction to move in
+        //randomly number generator
         std::random_device seed ;
         // generator 
         std::mt19937 engine( seed( ) ) ;
@@ -205,6 +214,7 @@ struct area_map{
                   temp->specs.cur_energy -= 1; //energy loss on move
                   temp->position = moveTo; //update internal position
               }
+              
             }else{
                 temp->specs.cur_energy -= 1; //loss of energy for a no move iteration
             }
@@ -341,15 +351,15 @@ struct area_map{
     }// end for loop on herbivores
 
     //make a list of omnivores to work on
-    std::vector<environment*> omniList;
-    for (int i = 0; i < myMap.size();++i){
-        for (int j = 0; j < myMap.front().size(); ++j){
-          environment* temp = myMap[i][j];
-              if(temp->specs.type=="omnivore"){
-                 omniList.push_back(temp);
-              }
-        }
-    }
+    // std::vector<environment*> omniList;
+    // for (int i = 0; i < myMap.size();++i){
+    //     for (int j = 0; j < myMap.front().size(); ++j){
+    //       environment* temp = myMap[i][j];
+    //           if(temp->specs.type=="omnivore"){
+    //              omniList.push_back(temp);
+    //           }
+    //     }
+    // }
     //check for omnivores
     for (environment* organism: omniList){
         environment* temp = organism;

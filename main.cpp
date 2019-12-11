@@ -14,7 +14,7 @@
 #include <map>
 #include <iostream>
 
-//#define DEBUG
+#define DEBUG
 //building components for class project
 //link to base github announcement https://github.com/uiowa-cs-3210-0001/cs3210-assignments-fall2019/tree/master/course-project
 //concepts
@@ -25,6 +25,8 @@
 //https://repl.it/@Sorceror89/hw11-problem1
 //https://repl.it/@Sorceror89/stringtolist
 //https://repl.it/@Sorceror89/Readline     //error reproduction
+//https://repl.it/@Sorceror89/Random-number-test
+//https://repl.it/@Sorceror89/enum-tests
 //https://repl.it/@Sorceror89/CommandArgs   //repl.it command line usage
 
 int main(int argc, char** argv) {
@@ -53,7 +55,17 @@ int main(int argc, char** argv) {
   //sim.saveMap();//testSave.txt
   sim.mainMenu();
 #else
-    //if (argv.size() < 3) return 1;
+    if (argc < 3) {
+        std::cout<<"Missing arguments. Require map and species files as arguments\n";
+        std::cout<<"Sample command ./main map.txt species.txt\n";
+        return 1;
+    }
+    if (argc > 3) {
+        std::cout<<"Too many arguments supplied. Require map and species files as arguments.\n";
+        std::cout<<"Sample command ./main map.txt species.txt\n";
+        return 1;
+    }
+        
     std::fstream readS(argv[2]);
     std::fstream readM(argv[1]); 
     simulation sim(readM,readS);

@@ -19,6 +19,7 @@ struct species {
     
     std::set<char> filter{',', '[', ']', ' '};
 
+    //read the file, initialize the species map
     std::map<char,attr> readSpecies(std::istream& input){
         std::map<char, attr> attributes;
         
@@ -74,6 +75,7 @@ struct species {
     
     }
 
+    // reuse save to print to console
     void printSpecies(){
         std::ostringstream out;
         saveSpecies(out);
