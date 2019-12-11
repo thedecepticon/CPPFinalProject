@@ -14,7 +14,7 @@
 #include <map>
 #include <iostream>
 
-//#define DEBUG
+#define DEBUG
 //building components for class project
 //link to base github announcement https://github.com/uiowa-cs-3210-0001/cs3210-assignments-fall2019/tree/master/course-project
 //concepts
@@ -28,6 +28,11 @@
 //https://repl.it/@Sorceror89/Random-number-test
 //https://repl.it/@Sorceror89/enum-tests
 //https://repl.it/@Sorceror89/CommandArgs   //repl.it command line usage
+//command line usage in repl
+//f1 -> open shell
+//     g++ -o main main.cpp
+//     ./main map.txt species.txt
+
 
 int main(int argc, char** argv) {
   //base testing

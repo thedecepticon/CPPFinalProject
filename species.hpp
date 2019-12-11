@@ -42,7 +42,7 @@ struct species {
             getline(in, foodchain,']');
             in >> max_energy;
             std::vector<char> edible;
-            for (int i = 0; i < foodchain.size(); ++i){
+            for (unsigned int i = 0; i < foodchain.size(); ++i){
                 if(filter.count(foodchain[i])==0){
                     char foodtoken = foodchain[i];
                     edible.push_back(foodtoken);
@@ -63,7 +63,7 @@ struct species {
             out << e.second.type <<" " << e.first << " " << e.second.regrowth << " " << e.second.max_energy;
             }else{
             out << e.second.type <<" "<< e.first <<" [";
-            for (int i = 0; i < e.second.food.size();++i){
+            for (unsigned int i = 0; i < e.second.food.size();++i){
                     out << e.second.food[i];
                     if (i != e.second.food.size()-1)
                         out << ", ";

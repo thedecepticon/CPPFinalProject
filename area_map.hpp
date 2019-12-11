@@ -127,8 +127,8 @@ struct area_map{
     std::mt19937 engine( seed( ) ) ;
     //check/work on plants and fill lists to work on later in the same pass
     //(prevents those moving down and right from operating more than once per turn)
-    for (int i = 0; i < myMap.size();++i)
-        for (int j = 0; j < myMap.front().size(); ++j){
+    for (unsigned int i = 0; i < myMap.size();++i)
+        for (unsigned int j = 0; j < myMap.front().size(); ++j){
           environment* curAnimal = myMap[i][j];
               if(curAnimal->specs.type=="plant"){
                   if (curAnimal->specs.cur_energy < 0)
