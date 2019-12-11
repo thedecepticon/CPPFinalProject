@@ -298,6 +298,7 @@ struct area_map{
                 myMap[curAnimal->position.x][curAnimal->position.y] = categorize(' ', point(curAnimal->position.x,curAnimal->position.y));
                 curAnimal->overlap = nullptr;
                 delete curAnimal;
+                curAnimal = nullptr; 
             }else{
               // std::cout<<"was standing on something"<<std::endl;
               // std::cout<<curAnimal->id<<" at "<<curAnimal->position;
@@ -305,6 +306,7 @@ struct area_map{
               myMap[curAnimal->position.x][curAnimal->position.y] = curAnimal->overlap;
               curAnimal->overlap = nullptr;
               delete curAnimal;
+              curAnimal = nullptr; 
             }
         }
     }// end for loop on herbivores
@@ -417,6 +419,7 @@ struct area_map{
                         curAnimal->specs.cur_energy = curAnimal->specs.max_energy;
                     //kill off the Animal
                     delete food;
+                    food = nullptr;
                 }
             }//end need to feed
             else{
@@ -484,6 +487,7 @@ struct area_map{
                 myMap[curAnimal->position.x][curAnimal->position.y] = categorize(' ', point(curAnimal->position.x,curAnimal->position.y));
                 curAnimal->overlap = nullptr;
                 delete curAnimal;
+                curAnimal = nullptr; 
             }else{
               // std::cout<<"was standing on something"<<std::endl;
               // std::cout<<curAnimal->id<<" at "<<curAnimal->position;
@@ -491,6 +495,7 @@ struct area_map{
               myMap[curAnimal->position.x][curAnimal->position.y] = curAnimal->overlap;
               curAnimal->overlap = nullptr;
               delete curAnimal;
+              curAnimal = nullptr; 
             }
         }
     }// end for loop on omnivores
