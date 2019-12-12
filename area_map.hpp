@@ -32,7 +32,7 @@ struct area_map{
     while(std::getline(incoming, line)){
         
         if(localMap.size() && line.size() != localMap.front().size()){
-            std::cout<<"map dimension mismatch"<<std::endl;
+            //std::cout<<"map dimension mismatch"<<std::endl;
             return std::vector<std::vector<environment*> >();
         }
         std::vector<environment*> currentrow;
