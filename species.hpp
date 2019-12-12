@@ -24,33 +24,42 @@ struct species {
         std::map<char, attr> attributes;
         
         for(std::string line; std::getline(input,line);){
-        //std::cout << line << std::endl;
-        std::istringstream in(line);
-        std::string type;
-        char id;
-        std::string foodchain;
-        int max_energy;
-        int regrowth;
-        in >> type >> id;
-        if (type=="plant"){
-            in >> regrowth >> max_energy;
-            attr curEle(type,regrowth,max_energy);
-            attributes[id]=curEle;
-            
-        }
-        else{
-            getline(in, foodchain,']');
-            in >> max_energy;
-            std::vector<char> edible;
-            for (unsigned int i = 0; i < foodchain.size(); ++i){
-                if(filter.count(foodchain[i])==0){
-                    char foodtoken = foodchain[i];
-                    edible.push_back(foodtoken);
+            //std::cout << line << std::endl;
+            std::istringstream in(line);
+            std::string type = "";
+            char id;
+            std::string foodchain = "";
+            int max_energy = 0;
+            int regrowth = 0;
+            in >> type >> id;
+            if (type=="plant"){
+                in >> regrowth >> max_energy;
+                attr curEle(type,regrowth,max_energy);
+                attributes[id]=curEle;
+                
+            }
+            else{
+                getline(in, foodchain,']');
+                in >> max_energy;
+                std::vector<char> edible;
+                for (unsigned int i = 0; i < foodchain.size(); ++i){
+                    if(filter.count(foodchain[i])==0){
+                        char foodtoken = foodchain[i];
+                        //std::cout<<foodtoken<<std::endl;
+                        edible.push_back(foodtoken);
+                    }
+                }
+                //std::cout<<max_energy<<std::endl;
+                attr curEle(type,max_energy,edible,true);
+                std::map<char, attr>::iterator iter = attributes.find(id);
+                //catch duplicates
+                if(iter == attributes.end())
+                    attributes[id]=curEle;
+                else{
+                    std::cout<<"Duplicate Species Error"<<std::endl;
+                    return std::map<char,attr>{};
                 }
             }
-            attr curEle(type,max_energy,edible,true);
-            attributes[id]=curEle;
-        }
 
         }
         return attributes;
